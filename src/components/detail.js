@@ -7,48 +7,56 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 import { useEffect, useState} from "react";
-import { getAllCities } from "../apiCall";
 import { Link as Linkrouter } from "react-router-dom";
+import {connect} from 'react-redux'
+import citiesActions from '../redux/actions/citiesActions'
 
-export default function DetailedCard() {
+const DetailedCard = (props)=> {
+  console.log(props)
   const { _id } = useParams();
-  const [Cities, setCities] = useState([]);
 
-useEffect(()=>{
-    getAllCities()
-    .then(response=>setCities(response.data.response.cities))
-  },[])
-  const card = (Cities.filter((city) => city._id == _id));
-  console.log(_id)
-  console.log(Cities.filter((city) => city._id == _id))
-
+  useEffect(() => {
+    props.findCity(_id)
+  },[]);
+  
+  if(!props.city){return <h1>loading</h1>}
   return (
     <div className="cardCities">
-      {card.map((City) => (
+     
         <Card sx={{ width: 345 }}>
           <CardMedia
             component="img"
             height="140"
-            image={process.env.PUBLIC_URL + `../../imagenes/${City.img}`}alt={process.env.PUBLIC_URL + `${City.name}`}
+            image={process.env.PUBLIC_URL + `../../imagenes/${props.city.img}`}alt={process.env.PUBLIC_URL + `${props.city.name}`}
             />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {City.name}
+              {props.city.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-{City.description}
+{props.city.description}
             </Typography>
           </CardContent>
           <CardActions>
             <Button size="small">Favorites</Button>
               <Button size="small">
-            <Linkrouter to={`detail/${City._id}`}>
+            <Linkrouter to={`detail/${props.city._id}`}>
                 Learn More
             </Linkrouter>
                 </Button>
           </CardActions>
         </Card>
-      ))}
+
     </div>
   );
 }
+const mapDispatchToProps={
+  findCity: citiesActions.findCity
+}
+const mapStateToProps = (state)=>{
+  return{
+    city: state.citiesReducer.city,
+    auxiliar: state.citiesReducer.auxiliar
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(DetailedCard)

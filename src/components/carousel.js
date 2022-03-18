@@ -5,23 +5,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { useEffect} from "react";
-import { getAllCities } from "../apiCall";
+import { useEffect } from "react"
 import "../App.css";
-
-// import required modules
+import {connect} from 'react-redux'
+import citiesActions from '../redux/actions/citiesActions'
 import { Pagination, Navigation } from "swiper";
 
-
-
-export default function Carousell() {
-  const [Cities, setCities] = useState([]);
-  console.log(Cities)
-
-useEffect(()=>{
-    getAllCities()
-    .then(response=>setCities(response.data.response.cities))
-  },[])
+function Carousell(props) {
+  useEffect(() => {
+    props.fetchCities();
+  }, []);
 
   return (
     <>
@@ -38,18 +31,29 @@ useEffect(()=>{
         modules={[Pagination, Navigation]}
         className="mySwiper"
       >
-        {Cities?.map(City=>
+        {props.cities?.map((City) => (
           <SwiperSlide key={City._id}>
-            <a href={`cities/detail/${City._id}`}>
-            <div className="cardCarousel">
-
-            <img className="imagenesCar" src={process.env.PUBLIC_URL + `./imagenes/${City.img}`}alt={process.env.PUBLIC_URL + `${City.name}`} />
-            <p>{process.env.PUBLIC_URL + `${City.name}`}</p>
-          </div>
-          </a>
-        </SwiperSlide>)}
-
+              <div className="cardCarousel">
+                <img
+                  className="imagenesCar"
+                  src={process.env.PUBLIC_URL + `./imagenes/${City.img}`}
+                  alt={process.env.PUBLIC_URL + `${City.name}`}
+                />
+                <p>{process.env.PUBLIC_URL + `${City.name}`}</p>
+              </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );
 }
+const mapDispatchToProps = {
+  fetchCities: citiesActions.fetchCities,
+};
+const mapStateToProps = (state) => {
+  return {
+    cities: state.citiesReducer.cities,
+    auxiliar: state.citiesReducer.auxiliar,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Carousell);

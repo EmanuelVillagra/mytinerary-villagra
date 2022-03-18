@@ -13,11 +13,16 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo1 from "../images/MyTinerary.png";
 import { Link as Linkrouter } from "react-router-dom";
-
-const NavBar = () => {
+import { connect } from 'react-redux';
+import userActions from '../redux/actions/userActions';
+import userReducer from '../redux/reducer/userReducer'
+const NavBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  function SignOut(){
+    props.SignOutUser(props.user.email)
+    setAnchorElNav(null);
+  }
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -28,12 +33,13 @@ const NavBar = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+  
 
   return (
-    <AppBar
-      position="static"
-      sx={{ background: "none", boxShadow: "0" }}
-    >
+    <AppBar position="static" sx={{ background: "none", boxShadow: "0" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -75,20 +81,15 @@ const NavBar = () => {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                  <Button>
-                <Linkrouter to="/">
-                    Home
-
-                </Linkrouter>
-                  </Button>
+                <Button>
+                  <Linkrouter to="/">Home</Linkrouter>
+                </Button>
               </MenuItem>
-              
+
               <MenuItem onClick={handleCloseNavMenu}>
-                  <Button>
-                <Linkrouter to="/cities">
-                    Cities
-                </Linkrouter>
-                    </Button>
+                <Button>
+                  <Linkrouter to="/cities">Cities</Linkrouter>
+                </Button>
               </MenuItem>
             </Menu>
           </Box>
@@ -101,52 +102,91 @@ const NavBar = () => {
             <img src={logo1} alt="logo" className="logo" />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  backgroundColor: "black",
-                  marginLeft: "3px",
-                }}
-              >
-                <Linkrouter to="/">
-                Home
-            </Linkrouter>
-              </Button>
-            
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  backgroundColor: "black",
-                  marginLeft: "3px",
-                }}
-              >
-                <Linkrouter to="/cities">
-                Cities
-            </Linkrouter>
-              </Button>
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                backgroundColor: "black",
+                marginLeft: "3px",
+              }}
+            >
+              <Linkrouter to="/">Home</Linkrouter>
+            </Button>
+
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                backgroundColor: "black",
+                marginLeft: "3px",
+              }}
+            >
+              <Linkrouter to="/cities">Cities</Linkrouter>
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Button>
-            <Tooltip title="Unknown">
+            <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-             <Linkrouter to='user'>
-                <Avatar alt="?" src="/static/images/avatar/2.jpg" />
-            </Linkrouter>
+                <Typography>
+                  {props.user.name}
+                </Typography>
+                <Avatar alt="?" src="/imagenes/user.jpg" />
               </IconButton>
             </Tooltip>
-            </Button>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <Linkrouter to='/SignIn'>
+
+                <MenuItem key={'SignIn'} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Sign In</Typography>
+                </MenuItem>
+              </Linkrouter>
+              <Linkrouter to="/SignUp">
+                <MenuItem key={'SignUp'} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Sign Up</Typography>
+                </MenuItem>
+
+              </Linkrouter>
+              <Linkrouter to="#">
+                <MenuItem key={'SignOut'} onClick={SignOut}>
+                  <Typography textAlign="center">Sign Out</Typography>
+                </MenuItem>
+
+              </Linkrouter>
+
+
+            </Menu>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 };
-export default NavBar;
+
+const mapDispatchToProps = {
+	SignOutUser: userActions.SignOutUser,
+
+}
+
+
+
+export default connect(null, mapDispatchToProps)(NavBar)

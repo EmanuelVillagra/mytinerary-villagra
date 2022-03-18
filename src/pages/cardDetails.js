@@ -1,5 +1,6 @@
 import "../App.css";
 import DetailedCard from "../components/detail";
+import ItinerariesSection from "../components/itinerariesSection";
 import NavBar from "../components/NavBar"
 
 function DetailPage() {
@@ -7,6 +8,7 @@ function DetailPage() {
     <div>
         <NavBar/>
 <DetailedCard/>
+<ItinerariesSection/>
     </div>
   );
 }

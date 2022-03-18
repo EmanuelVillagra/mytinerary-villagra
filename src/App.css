@@ -16,6 +16,10 @@
 body{
   background-color: bisque  ;
 }
+.itinerariesSection{
+display: flex;
+flex-direction: column;
+}
 .citiesHeader{
   background-image:linear-gradient(to left, rgba(0,0,0,0.5),rgba(0,0,0,0.15)), url(../public/imagenes/headerBackground.jpg);
   background-position: center;

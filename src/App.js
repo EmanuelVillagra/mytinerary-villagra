@@ -4,9 +4,8 @@ import Cities from './pages/cities'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import InConstruction from './components/inConstruction';
 import DetailPage from './pages/cardDetails';
-import { getAllCities } from './apiCall';
-import { useState, useEffect } from 'react';
-
+import SignUp from './components/SignUp/signup'
+import SignIn from './components/SignUp/signin'
 
 const App = () => {
 
@@ -19,6 +18,9 @@ const App = () => {
         <Route path='*' element={<InConstruction/>}/>
         <Route path='/cities' element={<Cities/>} />
         <Route path='/cities/detail/:_id' element={<DetailPage/>}/>
+        <Route path='/SignUp' element={<SignUp/>}/>
+        <Route path='/SignIn' element={<SignIn/>}/>
+        
       </Routes>
       
       
