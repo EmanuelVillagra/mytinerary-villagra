@@ -3,14 +3,18 @@ import { connect } from "react-redux";
 import userActions from "../../redux/actions/userActions";
 import { Link as LinkRouter } from "react-router-dom";
 import NavBar from "../NavBar";
+import FacebookSignUp from '../FacebookSignUp'
+import { useState } from "react";
 
 function SignUp(props) {
+  const countries = ["unselected", "Argentina", "Brazil", "Colombia", "Chile", "Uruguay"]
+
   console.log(props);
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const userData = {
-      firstName: event.target[0].value,
+      name: event.target[0].value,
       lastName: event.target[1].value,
       email: event.target[2].value,
       password: event.target[3].value,
@@ -24,7 +28,20 @@ function SignUp(props) {
         
       <NavBar />
       </div>
+      <FacebookSignUp/>
     <form onSubmit={handleSubmit}>
+    <div class="styled-select">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+
+                        {countries.map(country =>
+
+                            <option >{country}</option>
+
+                        )}
+
+                    </select>
+
+                </div>
       <div className="form-group input-group">
         <div className="input-group-prepend">
           <span className="input-group-text">
@@ -33,7 +50,7 @@ function SignUp(props) {
           </span>
         </div>
         <input
-          name="firstName"
+          name="name"
           className="form-control"
           placeholder="First name"
           type="text"

@@ -3,6 +3,22 @@
   background-image: url(./images/gppspl.jpg) ;
   background-size: cover;
 }
+.df{
+  display: flex;
+}
+
+.fdc{
+  flex-direction: column;
+}
+.aic{
+  align-items: center;
+}
+.jcc{
+  justify-content: center;
+}
+.w100{
+  width: 100%;
+}
 #standard-basic{
   width: 80vw;
 }

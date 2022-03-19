@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux';
 import userActions from '../../redux/actions/userActions';
 import { Link as LinkRouter } from 'react-router-dom';
+import FacebookSignIn from '../FacebookSignIn';
 import NavBar from '../NavBar';
-
+import '../../App.css'
 function SignIn(props) {
 
 	const handleSubmit = (event) => {
@@ -11,16 +12,28 @@ function SignIn(props) {
 		const logedUser = {
 			email: event.target[0].value,
 			password: event.target[1].value,
-			from: "form-Signin"
+			from: "form-Signup"
 		}
 		props.signInUser(logedUser)
 	}
 
 	return (
-<div>
+		<div className=''>
 <div className='citiesHeader'>
     <NavBar/>
 </div>
+<article style={{ maxWidth: 400 }}>
+
+<h4 className="card-title mt-3 text-center">User Account</h4>
+
+
+<p className="divider-text">
+	<span className="bg-light"> SignIn</span>
+</p>
+<FacebookSignIn />
+<p className="divider-text">
+	<span className="bg-light"> Or</span>
+</p>
 		<form onSubmit={handleSubmit}>
 			<div className="form-group input-group">
 				<div className="input-group-prepend">
@@ -38,10 +51,10 @@ function SignIn(props) {
 			<div className="form-group">
 				<button type="submit" className="btn btn-primary btn-block"> SignIn  </button>
 			</div>
-			<div className="text-center">Dont Have an account? <LinkRouter to="/SignUp">SignUp</LinkRouter> </div>
+			<div className="text-center">Dont Have an account? <LinkRouter to="/signup">SignUp</LinkRouter> </div>
 		</form>
-</div>
-
+</article>
+		</div>
 
 	)
 

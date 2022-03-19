@@ -21,7 +21,7 @@ const NavBar = (props) => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   function SignOut(){
     props.SignOutUser(props.user.email)
-    setAnchorElNav(null);
+    setAnchorElUser(null);
   }
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -132,8 +132,10 @@ const NavBar = (props) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Typography>
-                  {props.user.name}
+                <Typography sx={{color:"black"}}>
+                {props.user ? <><h4>{props.user.name+props.user.lastName}</h4>
+			</>
+				: <h4>No hay usuario conectado</h4>}
                 </Typography>
                 <Avatar alt="?" src="/imagenes/user.jpg" />
               </IconButton>
@@ -186,7 +188,11 @@ const mapDispatchToProps = {
 	SignOutUser: userActions.SignOutUser,
 
 }
+const mapStateToProps = (state) => {
+	return {
+		user: state.userReducer.user,
+	}
+}
 
 
-
-export default connect(null, mapDispatchToProps)(NavBar)
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
