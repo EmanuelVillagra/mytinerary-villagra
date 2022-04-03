@@ -1,18 +1,17 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/backend/node_modules
+/frontend/node_modules
 /node_modules
 /.pnp
 .pnp.js
-
+.env
 # testing
 /coverage
 
 # production
 /build
-public/imagenes/Insomnia.Core-2022.1.0.exe
-public/imagenes/Postman-Agent-win64-0.4.4-Setup.exe
+
 # misc
 .DS_Store
 .env.local
